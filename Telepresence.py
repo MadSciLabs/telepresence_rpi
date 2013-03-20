@@ -7,11 +7,11 @@ import time
 adafruit_path = os.path.abspath('Adafruit_PWM_Servo_Driver')
 sys.path.append(adafruit_path)
 
-spacebrew_path = os.path.abspath('spacebrew-python-examples')
+spacebrew_path = os.path.abspath('spacebrewInterface')
 sys.path.append(spacebrew_path)
 
 from Adafruit_PWM_Servo_Driver import PWM
-from spacebrew import SpaceBrew
+from spacebrew import Spacebrew
 
 arrSwitchVals = [-1, -1, -1, -1]
 arrSwitchPins = [18, 23, 24, 25]
@@ -25,7 +25,7 @@ for i in range(0,3):
 # CREATE SPACEBREW AND SUBSCRIBE
 # =========================
 
-brew_array = SpaceBrew("rpi_servo_array",server="10.70.2.124")
+brew_array = Spacebrew("rpi_servo_array",server="10.70.2.124")
 
 #CREATE SUBSCRIBERS
 brew_array.addSubscriber("servo0_cam_pan","range")
