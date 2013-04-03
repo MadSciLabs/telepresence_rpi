@@ -4,11 +4,15 @@ import os,sys
 import RPi.GPIO as GPIO
 import time
 
-adafruit_path = os.path.abspath('Adafruit_PWM_Servo_Driver')
+adafruit_path = '/home/pi/telepresence_rpi/Adafruit_PWM_Servo_Driver'
+#adafruit_path = os.path.abspath('Adafruit_PWM_Servo_Driver')
 sys.path.append(adafruit_path)
+print adafruit_path
 
-spacebrew_path = os.path.abspath('spacebrewInterface')
+spacebrew_path = '/home/pi/telepresence_rpi/spacebrewInterface'
+#spacebrew_path = os.path.abspath('spacebrewInterface')
 sys.path.append(spacebrew_path)
+print spacebrew_path
 
 from Adafruit_PWM_Servo_Driver import PWM
 from spacebrew import Spacebrew
@@ -18,14 +22,14 @@ arrSwitchPins = [18, 23, 24, 25]
 
 #OUTPUT PINS FOR THE RELAY
 GPIO.setmode(GPIO.BCM)
-for i in range(0,3):
+for i in range(0,4):
   GPIO.setup(arrSwitchPins[i], GPIO.OUT)
 
 # ===========================
 # CREATE SPACEBREW AND SUBSCRIBE
 # =========================
 
-brew_array = Spacebrew("rpi_servo_array",server="10.70.2.124")
+brew_array = Spacebrew("rpi_servo_array",server="54.244.122.198");
 
 #CREATE SUBSCRIBERS
 brew_array.addSubscriber("servo0_cam_pan","range")
@@ -42,13 +46,13 @@ brew_array.addSubscriber("servo10","range")
 
 brew_array.addSubscriber("relay1_ac", "boolean")
 brew_array.addSubscriber("relay2_ac", "boolean")
-brew_array.addSubscriber("relay3_dc", "boolean")
-brew_array.addSubscriber("relay4_dc", "boolean")
+brew_array.addSubscriber("relay3_ac", "boolean")
+brew_array.addSubscriber("relay0_ac", "boolean")
 
 brew_array.addPublisher("relay1_ac", "boolean")
 brew_array.addPublisher("relay2_ac", "boolean")
-brew_array.addPublisher("relay3_dc", "boolean")
-brew_array.addPublisher("relay4_dc", "boolean")
+brew_array.addPublisher("relay3_ac", "boolean")
+brew_array.addPublisher("relay0_ac", "boolean")
 
 
 # =========================
@@ -114,6 +118,14 @@ def switch3(value):
 # Subscribe
 # ==========
 brew_array.subscribe("servo0_cam_pan",servo0);
+brew_array.subscribe("servo1_cam_tilt",servo1);
+brew_array.subscribe("servo2",servo2);
+brew_array.subscribe("servo3",servo3);
+
+brew_array.subscribe("relay0_ac",switch0);
+brew_array.subscribe("relay1_ac",switch1);
+brew_array.subscribe("relay2_ac",switch2);
+brew_array.subscribe("relay3_ac",switch3);
 
 brew_array.start()
 
